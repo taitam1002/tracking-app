@@ -1,0 +1,38 @@
+// buildscript {
+//     ext.kotlin_version = '2.0.0'
+//     repositories {
+//         google()
+//         mavenCentral()
+//     }
+//     dependencies {
+//         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//         // Các classpath khác
+//     }
+// }
+
+plugins {
+    // Các plugin khác
+    id 'com.google.gms.google-services' version '4.4.0' apply false
+    // id 'org.jetbrains.kotlin.jvm' version '2.0.20' // Thay 'x' bằng phiên bản Kotlin mới nhất
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin.jvm/org.jetbrains.kotlin.jvm.gradle.plugin
+    // implementation("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:2.0.20")
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
